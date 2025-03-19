@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Polityka prywatności";
+}
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    @await Html.PartialAsync("_Privacy")
+    @await Html.PartialAsync("_CookiePolicy")
+    @await Html.PartialAsync("_RODO")
+</div>

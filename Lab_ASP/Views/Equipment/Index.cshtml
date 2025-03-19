@@ -1,0 +1,23 @@
+﻿@using Lab_ASP.Models.ViewModels
+@model List<EquipmentItemViewModel>
+
+@{
+    ViewData["Title"] = "Lista pojazdów";
+}
+
+<h1>Lista pojazdów</h1>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class=" col-md-4">
+            <div class="card">
+                <img src="@item.ImgURL" class="card-img-top" alt="@item.Model" />
+                <div class="card-body">
+                    <h5 class="card-title">@item.Make @item.Model</h5>
+                    <a href="@Url.Action("Details", "Equipment", new { id = item.ID })" class="btn btn-primary">Szczegóły</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Lab_ASP.Data;
 using System.Threading.Tasks;
+using Lab_ASP.Services;
 
 namespace Lab_ASP;
 
@@ -21,6 +22,8 @@ public class Program
         builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
+
+        builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 
         var app = builder.Build();
 

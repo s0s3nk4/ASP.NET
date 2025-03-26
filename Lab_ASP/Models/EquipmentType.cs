@@ -2,7 +2,7 @@
 
 namespace Lab_ASP.Models
 {
-    public class EquipmetType
+    public class EquipmentType
     {
         [Key]
         public int Id { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Lab_ASP.Models;
 
-namespace Lab_ASP.Services
+namespace Lab_ASP.Repositories
 {
     public interface IEquipmentRepository
     {

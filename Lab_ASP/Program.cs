@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Lab_ASP.Data;
 using System.Threading.Tasks;
 using Lab_ASP.Services;
+using Lab_ASP.Repositories;
 
 namespace Lab_ASP;
 
@@ -24,6 +25,7 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
+        builder.Services.AddScoped<IRentalPointRepository, RentalPointRepository>();
 
         var app = builder.Build();
 
@@ -57,11 +59,11 @@ public class Program
             dbContext.Database.EnsureCreated();
         }
 
-        using(var scope = app.Services.CreateScope())
+        /*using(var scope = app.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
             SeedData.Initialize(services);
-        }
+        }*/
 
         using (var scope = app.Services.CreateScope())
         {

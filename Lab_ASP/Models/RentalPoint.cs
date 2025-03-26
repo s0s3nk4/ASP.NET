@@ -12,5 +12,6 @@ namespace Lab_ASP.Models
         [Required]
         public string Address { get; set; }
         public ICollection<Equipment> Equipments { get; set; } = new List<Equipment>();
+        public ICollection<Rental> Rentals { get; set; } = new List<Rental>();
     }
 }

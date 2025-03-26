@@ -1,5 +1,6 @@
 ﻿using Lab_ASP.Data;
 using Lab_ASP.Models;
+using Lab_ASP.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lab_ASP.Services

@@ -13,14 +13,18 @@ namespace Lab_ASP.Models
         public string Model { get; set; }
         [Required]
         public int Year { get; set; }
-        public string Description { get; set; }
-        public string ImageURL { get; set; }
+        public string? Description { get; set; }
+        public string? ImageURL { get; set; }
 
         public int EquipmentTypeId { get; set; }
         [ForeignKey("EquipmentTypeId")]
-        public EquipmetType EquipmentType { get; set; }
+        public EquipmentType? EquipmentType { get; set; }
 
         public int RentalPointId { get; set; }
-        public RentalPoint RentalPoint { get; set; }
+        [ForeignKey("RentalPointId")]
+        public RentalPoint? RentalPoint { get; set; }
+
+        public ICollection<Rental> Rentals { get; set; } = new List<Rental>();
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab_ASP.Data;
 using Lab_ASP.Models;
+using Lab_ASP.Models.ViewModels;
 
 namespace Lab_ASP.Controllers
 {
@@ -23,11 +24,39 @@ namespace Lab_ASP.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.RentalPoints.ToListAsync());
+            /*var rentalPoints = await _context.RentalPoints
+            .Select(rp => new RentalPointItemViewModel
+            {
+                Id = rp.Id,
+                Name = rp.Name,
+                Address = rp.Address
+            })
+            .ToListAsync();
+
+            return View(rentalPoints);*/
         }
 
         // GET: RentalPoints/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            /*var rentalPoint = await _context.RentalPoints
+            .Where(rp => rp.Id == id)
+            .Select(rp => new RentalPointDetailViewModel
+            {
+                Id = rp.Id,
+                Name = rp.Name,
+                Address = rp.Address,
+                PhoneNumber = rp.PhoneNumber,
+                Email = rp.Email
+            })
+            .FirstOrDefaultAsync();
+
+                if (rentalPoint == null)
+                {
+                    return NotFound();
+                }
+
+                return View(rentalPoint);*/
             if (id == null)
             {
                 return NotFound();
@@ -54,7 +83,7 @@ namespace Lab_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address")] RentalPoint rentalPoint)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address,PhoneNumber,Email")] RentalPoint rentalPoint)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +115,7 @@ namespace Lab_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address")] RentalPoint rentalPoint)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,PhoneNumber,Email")] RentalPoint rentalPoint)
         {
             if (id != rentalPoint.Id)
             {

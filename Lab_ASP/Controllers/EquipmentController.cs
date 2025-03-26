@@ -38,7 +38,7 @@ namespace Lab_ASP.Controllers
             }
             return View(equipmentDetail);
         }*/
-        /*private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public EquipmentController(ApplicationDbContext context)
         {
@@ -48,11 +48,13 @@ namespace Lab_ASP.Controllers
         public async Task<IActionResult> Index()
         {
             var equipments = await _context.Equipments
+                .Include(e => e.EquipmentType)
                 .Select(e => new EquipmentItemViewModel
                 {
                     ID = e.Id,
                     Make = e.Make,
                     Model = e.Model,
+                    Type = e.EquipmentType.Name,
                     ImgURL = e.ImageURL
                 }).ToListAsync();
 
@@ -62,12 +64,14 @@ namespace Lab_ASP.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var equipmentDetail = await _context.Equipments
+                .Include(e => e.EquipmentType)
                 .Where(e => e.Id == id)
                 .Select(e => new EquipmentDetailViewModel
                 {
                     ID = e.Id,
                     Make = e.Make,
                     Model = e.Model,
+                    Type = e.EquipmentType.Name,
                     ImgURL = e.ImageURL,
                     Year = e.Year,
                     Description = e.Description
@@ -77,8 +81,8 @@ namespace Lab_ASP.Controllers
                 return NotFound();
             }
             return View(equipmentDetail);
-        }*/
-        private readonly IEquipmentRepository _equipmentRepository;
+        }
+        /*private readonly IEquipmentRepository _equipmentRepository;
         public EquipmentController(IEquipmentRepository equipmentRepository)
         {
             _equipmentRepository = equipmentRepository;
@@ -87,7 +91,8 @@ namespace Lab_ASP.Controllers
         public async Task<IActionResult> Index()
         {
             var equipments = await _equipmentRepository.GetAllAsync();
-            var viewModel = equipments.Select(e => new EquipmentItemViewModel
+            var viewModel = equipments
+                .Select(e => new EquipmentItemViewModel
             {
                 ID = e.Id,
                 Make = e.Make,
@@ -114,6 +119,6 @@ namespace Lab_ASP.Controllers
                 Description = equipments.Description
             };
             return View(viewModel);
-        }
+        }*/
     }
 }

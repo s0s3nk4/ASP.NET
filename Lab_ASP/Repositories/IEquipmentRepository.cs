@@ -6,7 +6,7 @@ namespace Lab_ASP.Repositories
     {
         Task<IEnumerable<Equipment>> GetAllAsync();
         Task<Equipment?> GetByIdAsync(int id);
-        Task AddAsync(Equipment equipment);
+        Task AddAsync(Equipment equipmet);
         Task UpdateAsync(Equipment equipment);
         Task DeleteAsync(int id);
     }

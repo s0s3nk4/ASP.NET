@@ -31,7 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
         builder.Entity<Equipment>()
             .HasOne(e => e.RentalPoint)
             .WithMany(et => et.Equipments)
-            .HasForeignKey(e => e.EquipmentTypeId)
+            .HasForeignKey(e => e.RentalPointId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Rental>()

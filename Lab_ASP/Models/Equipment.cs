@@ -8,9 +8,9 @@ namespace Lab_ASP.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Make { get; set; }
+        public string? Make { get; set; }
         [Required]
-        public string Model { get; set; }
+        public string? Model { get; set; }
         [Required]
         public int Year { get; set; }
         public string? Description { get; set; }

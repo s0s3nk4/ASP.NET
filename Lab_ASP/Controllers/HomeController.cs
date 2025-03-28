@@ -1,6 +1,6 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Lab_ASP.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Lab_ASP.Controllers;
 

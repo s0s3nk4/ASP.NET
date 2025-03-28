@@ -18,7 +18,7 @@ namespace Lab_ASP.Models
         public string UserId { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
-        public DateTime ? EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public bool IsReturned => EndDate.HasValue;
     }
 }

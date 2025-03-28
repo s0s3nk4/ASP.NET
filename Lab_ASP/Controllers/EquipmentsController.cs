@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Lab_ASP.Data;
+using Lab_ASP.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Lab_ASP.Data;
-using Lab_ASP.Models;
 
 namespace Lab_ASP.Controllers
 {
     public class EquipmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public EquipmentsController(ApplicationDbContext context)
         {
             _context = context;

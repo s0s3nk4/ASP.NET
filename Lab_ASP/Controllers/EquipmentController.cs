@@ -1,8 +1,5 @@
 ﻿using Lab_ASP.Data;
-using Lab_ASP.Models;
 using Lab_ASP.Models.ViewModels;
-using Lab_ASP.Repositories;
-using Lab_ASP.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

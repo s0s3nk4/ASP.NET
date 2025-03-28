@@ -1,9 +1,9 @@
+using Lab_ASP.Data;
+using Lab_ASP.Mapping;
+using Lab_ASP.Repositories;
+using Lab_ASP.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Lab_ASP.Data;
-using System.Threading.Tasks;
-using Lab_ASP.Services;
-using Lab_ASP.Repositories;
 
 namespace Lab_ASP;
 
@@ -12,6 +12,8 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
         // Add services to the container.
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -53,7 +55,7 @@ public class Program
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.MapRazorPages();
 
-        using(var scope = app.Services.CreateScope())
+        using (var scope = app.Services.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             dbContext.Database.EnsureCreated();
@@ -80,6 +82,6 @@ public class Program
                 await userManager.CreateAsync(admin, "Admin1234!");
             }
         }
-                app.Run();
+        app.Run();
     }
 }

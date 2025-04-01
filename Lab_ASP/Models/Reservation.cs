@@ -10,9 +10,9 @@ namespace Lab_ASP.Models
         [Required]
         public int EquipmentId { get; set; }
         [ForeignKey("EquipmentId")]
-        public Equipment Equipment { get; set; }
+        public Equipment? Equipment { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         [Required]

@@ -10,12 +10,12 @@ namespace Lab_ASP.Models
         [Required]
         public int EquipmentId { get; set; }
         [ForeignKey("EquipmentId")]
-        public Equipment Equipment { get; set; }
+        public Equipment? Equipment { get; set; }
         public int RentalPointId { get; set; }
         [ForeignKey("RentalPointId")]
-        public RentalPoint RentalPoint { get; set; }
+        public RentalPoint? RentalPoint { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }

@@ -9,7 +9,7 @@ namespace Lab_ASP.Models
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public ICollection<Equipment> Equipments { get; set; } = new List<Equipment>();
     }

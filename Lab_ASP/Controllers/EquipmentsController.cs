@@ -1,51 +1,57 @@
-﻿using Lab_ASP.Data;
-using Lab_ASP.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Lab_ASP.Data;
+using Lab_ASP.Models;
+using AutoMapper;
+using Lab_ASP.Models.ViewModels;
 
 namespace Lab_ASP.Controllers
 {
     public class EquipmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public EquipmentsController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+
+        public EquipmentsController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: Equipments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Equipments.Include(e => e.EquipmentType).Include(e => e.RentalPoint);
-            return View(await applicationDbContext.ToListAsync());
+            var equipments = await _context.Equipments.Include(v => v.EquipmentType).Include(v => v.RentalPoint).ToListAsync();
+            var viewModel = _mapper.Map<List<EquipmentItemViewModel>>(equipments);
+            return View(viewModel);
         }
 
         // GET: Equipments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var equipment = await _context.Equipments
-                .Include(e => e.EquipmentType)
-                .Include(e => e.RentalPoint)
+            var equipments = await _context.Equipments
+                .Include(v => v.EquipmentType)
+                .Include(v => v.RentalPoint)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (equipment == null)
-            {
-                return NotFound();
-            }
 
-            return View(equipment);
+            if (equipments == null) return NotFound();
+
+            var viewModel = _mapper.Map<EquipmentDetailViewModel>(equipments);
+            return View(viewModel);
         }
 
         // GET: Equipments/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["EquipmentTypeId"] = new SelectList(_context.EquipmentTypes, "Id", "Name");
-            ViewData["RentalPointId"] = new SelectList(_context.RentalPoints, "Id", "Name");
+            ViewData["EquipmentTypeId"] = new SelectList(await _context.EquipmentTypes.ToListAsync(), "Id", "Name");
+            ViewData["RentalPointId"] = new SelectList(await _context.RentalPoints.ToListAsync(), "Id", "Address");
             return View();
         }
 
@@ -54,35 +60,33 @@ namespace Lab_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Make,Model,Year,Description,ImageURL,EquipmentTypeId,RentalPointId")] Equipment equipment)
+        public async Task<IActionResult> Create(EquipmentDetailViewModel equip)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(equipment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewData["EquipmentTypeId"] = new SelectList(await _context.EquipmentTypes.ToListAsync(), "Id", "Name");
+                ViewData["RentalPointId"] = new SelectList(await _context.RentalPoints.ToListAsync(), "Id", "Address");
+                return View(equip);
             }
-            ViewData["EquipmentTypeId"] = new SelectList(_context.EquipmentTypes, "Id", "Name", equipment.EquipmentTypeId);
-            ViewData["RentalPointId"] = new SelectList(_context.RentalPoints, "Id", "Name", equipment.RentalPointId);
-            return View(equipment);
+
+            var equipment = _mapper.Map<Equipment>(equip);
+            _context.Equipments.Add(equipment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Equipments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var equipment = await _context.Equipments.FindAsync(id);
-            if (equipment == null)
-            {
-                return NotFound();
-            }
-            ViewData["EquipmentTypeId"] = new SelectList(_context.EquipmentTypes, "Id", "Name", equipment.EquipmentTypeId);
-            ViewData["RentalPointId"] = new SelectList(_context.RentalPoints, "Id", "Name", equipment.RentalPointId);
-            return View(equipment);
+            if (equipment == null) return NotFound();
+
+            var viewModel = _mapper.Map<EquipmentDetailViewModel>(equipment);
+            ViewData["EquipmentTypeId"] = new SelectList(await _context.EquipmentTypes.ToListAsync(), "Id", "Name", equipment.EquipmentTypeId);
+            ViewData["RentalPointId"] = new SelectList(await _context.RentalPoints.ToListAsync(), "Id", "Address", equipment.RentalPointId);
+            return View(viewModel);
         }
 
         // POST: Equipments/Edit/5
@@ -90,56 +94,46 @@ namespace Lab_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Year,Description,ImageURL,EquipmentTypeId,RentalPointId")] Equipment equipment)
+        public async Task<IActionResult> Edit(int id, EquipmentDetailViewModel equip)
         {
-            if (id != equipment.Id)
+            if (id != equip.Id) return NotFound();
+
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                ViewData["EquipmentTypeId"] = new SelectList(await _context.EquipmentTypes.ToListAsync(), "Id", "Name", equip.EquipmentTypeId);
+                ViewData["RentalPointId"] = new SelectList(await _context.RentalPoints.ToListAsync(), "Id", "Address", equip.RentalPointId);
+                return View(equip);
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(equipment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EquipmentExists(equipment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var equipment = _mapper.Map<Equipment>(equip);
+                _context.Equipments.Update(equipment);
+                await _context.SaveChangesAsync();
             }
-            ViewData["EquipmentTypeId"] = new SelectList(_context.EquipmentTypes, "Id", "Name", equipment.EquipmentTypeId);
-            ViewData["RentalPointId"] = new SelectList(_context.RentalPoints, "Id", "Name", equipment.RentalPointId);
-            return View(equipment);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EquipmentExists(equip.Id)) return NotFound();
+                else throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Equipments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var equipment = await _context.Equipments
-                .Include(e => e.EquipmentType)
-                .Include(e => e.RentalPoint)
+                .Include(v => v.EquipmentType)
+                .Include(v => v.RentalPoint)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (equipment == null)
-            {
-                return NotFound();
-            }
 
-            return View(equipment);
+            if (equipment == null) return NotFound();
+
+            var viewModel = _mapper.Map<EquipmentDetailViewModel>(equipment);
+            return View(viewModel);
         }
 
         // POST: Equipments/Delete/5
@@ -151,9 +145,8 @@ namespace Lab_ASP.Controllers
             if (equipment != null)
             {
                 _context.Equipments.Remove(equipment);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

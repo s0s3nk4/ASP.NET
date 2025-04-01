@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Lab_ASP.Models.Equipment>
+﻿@model IEnumerable<Lab_ASP.Models.ViewModels.EquipmentItemViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,19 +19,7 @@
                 @Html.DisplayNameFor(model => model.Model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageURL)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.EquipmentType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RentalPointId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RentalPoint)
@@ -49,22 +37,10 @@
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Year)
+                @Html.DisplayFor(modelItem => item.EquipmentType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EquipmentType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RentalPointId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RentalPoint.Name)
+                @Html.DisplayFor(modelItem => item.RentalPoint)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

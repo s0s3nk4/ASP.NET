@@ -1,4 +1,4 @@
-﻿@model Lab_ASP.Models.Equipment
+﻿@model Lab_ASP.Models.ViewModels.EquipmentDetailViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -36,28 +36,22 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageURL)
+            @Html.DisplayNameFor(model => model.ImgURL)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageURL)
+            @Html.DisplayFor(model => model.ImgURL)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EquipmentType)
+            @Html.DisplayNameFor(model => model.EquipmentTypeId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EquipmentType.Name)
+            @Html.DisplayFor(model => model.EquipmentTypeId)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RentalPointId)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RentalPointId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RentalPoint)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RentalPoint.Address)
         </dd>
     </dl>
     

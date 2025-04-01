@@ -3,6 +3,8 @@ using Lab_ASP.Repositories;
 using Lab_ASP.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Lab_ASP.Mappings;
 
 namespace Lab_ASP;
 
@@ -23,8 +25,7 @@ public class Program
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
 
-        builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
-        builder.Services.AddScoped<IRentalPointRepository, RentalPointRepository>();
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         var app = builder.Build();
 

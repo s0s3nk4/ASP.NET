@@ -2,10 +2,10 @@
 {
     public class ReservationViewModel
     {
-        public int ID { get; set; }
-        public string Equipment { get; set; }
-        public string Customer { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+        public int Id { get; set; }
+        public string? Equipment { get; set; }
+        public string? Customer { get; set; }
+        public string? StartDate { get; set; }
+        public string? EndDate { get; set; }
     }
 }

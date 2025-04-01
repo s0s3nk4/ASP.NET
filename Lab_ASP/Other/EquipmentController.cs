@@ -3,7 +3,7 @@ using Lab_ASP.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lab_ASP.Controllers
+namespace Lab_ASP.Other
 {
     public class EquipmentController : Controller
     {
@@ -46,7 +46,7 @@ namespace Lab_ASP.Controllers
         {
             var equipments = await _context.Equipments
                 .Include(e => e.EquipmentType)
-                .Select(e => new EquipmentItemViewModel
+                .Select(e => new EquipmentViewModel
                 {
                     ID = e.Id,
                     Make = e.Make,
@@ -63,7 +63,7 @@ namespace Lab_ASP.Controllers
             var equipmentDetail = await _context.Equipments
                 .Include(e => e.EquipmentType)
                 .Where(e => e.Id == id)
-                .Select(e => new EquipmentDetailViewModel
+                .Select(e => new EquipmentViewModel
                 {
                     ID = e.Id,
                     Make = e.Make,

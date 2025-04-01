@@ -1,5 +1,4 @@
 using Lab_ASP.Data;
-using Lab_ASP.Mapping;
 using Lab_ASP.Repositories;
 using Lab_ASP.Services;
 using Microsoft.AspNetCore.Identity;
@@ -12,8 +11,6 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
-        builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
         // Add services to the container.
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");

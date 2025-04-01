@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Other\**" />
+    <Content Remove="Other\**" />
+    <EmbeddedResource Remove="Other\**" />
+    <None Remove="Other\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Data\SeedData.cs" />
   </ItemGroup>
 

@@ -13,8 +13,9 @@ namespace Lab_ASP.Mappings
             .ForMember(dest => dest.RentalPoint, opt => opt.MapFrom(src => src.RentalPoint.Address))
             .ReverseMap();
 
-            CreateMap<Equipment, EquipmentDetailViewModel>()
-            .ReverseMap();
+            CreateMap<Equipment, EquipmentDetailViewModel>().ReverseMap();
+
+            CreateMap<EquipmentType, EquipmentTypeViewModel>().ReverseMap();
 
             CreateMap<RentalPoint, RentalPointViewModel>().ReverseMap();
 

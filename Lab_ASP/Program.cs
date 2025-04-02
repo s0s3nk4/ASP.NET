@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Lab_ASP.Mappings;
+using Lab_ASP.Validators;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Lab_ASP.Models.ViewModels;
 
 namespace Lab_ASP;
 
@@ -26,6 +30,11 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+        //builder.Services.AddControllersWithViews();
+        //builder.Services.AddValidatorsFromAssemblyContaining<ReservationValidator>();
+        builder.Services.AddScoped<IValidator<ReservationViewModel>, ReservationValidator>();
+
 
         var app = builder.Build();
 

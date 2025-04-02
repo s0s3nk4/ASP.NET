@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab_ASP.Data;
 using Lab_ASP.Models;
+using AutoMapper;
+using Lab_ASP.Models.ViewModels;
 
 namespace Lab_ASP.Controllers
 {
     public class EquipmentTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public EquipmentTypesController(ApplicationDbContext context)
+        public EquipmentTypesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: EquipmentTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.EquipmentTypes.ToListAsync());
+            var equipmentTypes = await _context.EquipmentTypes.ToListAsync();
+            var viewModel = _mapper.Map<List<EquipmentTypeViewModel>>(equipmentTypes);
+            return View(viewModel);
         }
 
         // GET: EquipmentTypes/Details/5
@@ -40,7 +46,9 @@ namespace Lab_ASP.Controllers
                 return NotFound();
             }
 
-            return View(equipmentType);
+            var viewModel = _mapper.Map<EquipmentTypeViewModel>(equipmentType);
+
+            return View(viewModel);
         }
 
         // GET: EquipmentTypes/Create
@@ -54,15 +62,17 @@ namespace Lab_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] EquipmentType equipmentType)
+        public async Task<IActionResult> Create([Bind("Id,Name")] EquipmentTypeViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(equipmentType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(model);
             }
-            return View(equipmentType);
+
+            var equipmentType = _mapper.Map<EquipmentType>(model);
+            _context.Add(equipmentType);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: EquipmentTypes/Edit/5
@@ -78,7 +88,9 @@ namespace Lab_ASP.Controllers
             {
                 return NotFound();
             }
-            return View(equipmentType);
+
+            var viewModel = _mapper.Map<EquipmentTypeViewModel>(equipmentType);
+            return View(viewModel);
         }
 
         // POST: EquipmentTypes/Edit/5
@@ -86,34 +98,36 @@ namespace Lab_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] EquipmentType equipmentType)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] EquipmentTypeViewModel model)
         {
-            if (id != equipmentType.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(equipmentType);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EquipmentTypeExists(equipmentType.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(model);
             }
-            return View(equipmentType);
+
+            try
+            {
+                var equipmentType = _mapper.Map<EquipmentType>(model);
+                _context.Update(equipmentType);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EquipmentTypeExists(model.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+                return RedirectToAction(nameof(Index));
         }
 
         // GET: EquipmentTypes/Delete/5
@@ -131,7 +145,8 @@ namespace Lab_ASP.Controllers
                 return NotFound();
             }
 
-            return View(equipmentType);
+            var viewModel = _mapper.Map<EquipmentTypeViewModel>(equipmentType);
+            return View(viewModel);
         }
 
         // POST: EquipmentTypes/Delete/5

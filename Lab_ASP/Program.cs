@@ -78,7 +78,7 @@ public class Program
 
         using (var scope = app.Services.CreateScope())
         {
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            /*var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             if (await userManager.FindByEmailAsync("admin@example.com") == null)
             {
@@ -89,7 +89,9 @@ public class Program
                     EmailConfirmed = true
                 };
                 await userManager.CreateAsync(admin, "Admin1234!");
-            }
+            }*/
+            var services = scope.ServiceProvider;
+            await DbInitializer.SeedRolesAndAdminAsync(services);
         }
 
 

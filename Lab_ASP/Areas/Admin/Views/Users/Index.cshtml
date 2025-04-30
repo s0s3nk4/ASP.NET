@@ -1,0 +1,28 @@
+﻿@using Lab_ASP.Models
+@model IEnumerable<ApplicationUser>
+
+<h2>Użytkownicy</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Zablokowany?</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@(user.LockoutEnd > DateTimeOffset.Now ? "Tak" : "Nie")</td>
+                <td>
+                    <a asp-action="Lock" asp-route-id="@user.Id">Zablokuj</a> |
+                    <a asp-action="Unlock" asp-route-id="@user.Id">Odblokuj</a> |
+                    <a asp-action="ResetPassword" asp-route-id="@user.Id">Reset Hasła</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

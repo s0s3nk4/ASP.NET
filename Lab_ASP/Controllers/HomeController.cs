@@ -1,6 +1,10 @@
+using AutoMapper;
+using Lab_ASP.Data;
 using Lab_ASP.Models;
+using Lab_ASP.Models.ViewModels;
 using Lab_ASP.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Lab_ASP.Controllers;
@@ -8,15 +12,39 @@ namespace Lab_ASP.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IMapper mapper)
     {
         _logger = logger;
+        _context = context;
+        _mapper = mapper;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var equipments = await _context.Equipments
+        .Include(e => e.EquipmentType)
+        .ToListAsync();
+
+        var viewModel = _mapper.Map<List<EquipmentItemViewModel>>(equipments);
+        return View(viewModel);
+    }
+
+    public async Task<IActionResult> Details(int id)
+    {
+        var equipment = await _context.Equipments
+        .Include(e => e.EquipmentType)
+        .FirstOrDefaultAsync(e => e.Id == id);
+
+        if (equipment == null)
+        {
+            return NotFound();
+        }
+
+        var viewModel = _mapper.Map<EquipmentDetailViewModel>(equipment);
+        return View(viewModel);
     }
 
     public IActionResult Privacy()

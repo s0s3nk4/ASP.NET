@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab_ASP.Data;
 using Lab_ASP.Models;
+using FluentValidation;
 
 namespace Lab_ASP.Controllers
 {
     public class ReservationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IValidator<Reservation> _validator;
 
-        public ReservationsController(ApplicationDbContext context)
+        public ReservationsController(ApplicationDbContext context, IValidator<Reservation> validator)
         {
             _context = context;
+            _validator = validator;
         }
 
         // GET: Reservations
@@ -59,6 +62,16 @@ namespace Lab_ASP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,EquipmentId,UserId,StartDate,EndDate,IsApproved")] Reservation reservation)
         {
+            var validationResult = await _validator.ValidateAsync(reservation);
+            if (!validationResult.IsValid) 
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                ViewData["EquipmentId"] = new SelectList(_context.Equipments, "Id", "Make", reservation.EquipmentId);
+                return View(reservation);
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(reservation);

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace Lab_ASP.Models
 {
@@ -21,7 +22,6 @@ namespace Lab_ASP.Models
         [ForeignKey("RentalPointId")]
         public int RentalPointId { get; set; }
         public RentalPoint? RentalPoint { get; set; }
-
         public ICollection<Rental> Rentals { get; set; } = new List<Rental>();
         public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }

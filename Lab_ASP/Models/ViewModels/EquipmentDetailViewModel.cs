@@ -20,7 +20,9 @@ namespace Lab_ASP.Models.ViewModels
         public string? ImgURL { get; set; }
         [Required(ErrorMessage = "Typ sprzętu jest wymagany")]
         public int EquipmentTypeId { get; set; }
+        public string? EquipmentType { get; set; }
         [Required(ErrorMessage = "Punkt wypożyczeń jest wymagany")]
         public int RentalPointId { get; set; }
+        public string? RentalPoint { get; set; }
     }
 }

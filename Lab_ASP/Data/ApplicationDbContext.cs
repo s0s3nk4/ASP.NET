@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lab_ASP.Data;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -52,6 +52,10 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
             .HasForeignKey(e => e.EquipmentId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Entity<ApplicationUser>()
+            .Property(u => u.UserType)
+            .HasConversion<int>()
+            .HasDefaultValue(UserType.Bronze);
         /*builder.Entity<EquipmetType>().HasData(
             new EquipmetType { Id = 1, Name = "Bike" },
             new EquipmetType { Id = 2, Name = "Scooter" }

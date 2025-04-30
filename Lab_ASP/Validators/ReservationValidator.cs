@@ -1,19 +1,19 @@
 ﻿using FluentValidation;
+using Lab_ASP.Models;
 using Lab_ASP.Models.ViewModels;
 
 namespace Lab_ASP.Validators
 {
-    public class ReservationValidator : AbstractValidator<ReservationViewModel>
+    public class ReservationValidator : AbstractValidator<Reservation>
     {
         public ReservationValidator()
         {
             RuleFor(r => r.StartDate)
-                .LessThanOrEqualTo(r => r.EndDate)
-                .WithMessage("Data rozpoczęcia musi być wcześniejsza niż data zakończenia");
+                .NotEmpty().WithMessage("Start date is required.");
 
             RuleFor(r => r.EndDate)
-                .GreaterThanOrEqualTo(r => r.StartDate)
-                .WithMessage("Data zakończenia musi być późniejsza niż data rozpoczęcia");
+                .NotEmpty().WithMessage("End date is required.")
+                .GreaterThanOrEqualTo(r => r.StartDate).WithMessage("End date must be after start date.");
         }
     }
 }

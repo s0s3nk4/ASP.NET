@@ -22,3 +22,20 @@
         <img src="~/images/tricycle.jpg" class="img-fluid" alt="Trójkołowiec">
     </div>
 </div>
+
+<h1>Lista pojazdów</h1>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class=" col-md-4">
+            <div class="card">
+                <img src="@item.ImgURL" class="card-img-top" alt="@item.Model" />
+                <div class="card-body">
+                    <h5 class="card-title">@item.Make @item.Model (@item.EquipmentType)</h5>
+                    <a href="@Url.Action("Details", "Home", new { id = item.Id })" class="btn btn-primary">Szczegóły</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

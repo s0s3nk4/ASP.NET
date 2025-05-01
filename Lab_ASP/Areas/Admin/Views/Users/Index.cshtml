@@ -18,9 +18,15 @@
                 <td>@user.Email</td>
                 <td>@(user.LockoutEnd > DateTimeOffset.Now ? "Tak" : "Nie")</td>
                 <td>
-                    <a asp-action="Lock" asp-route-id="@user.Id">Zablokuj</a> |
-                    <a asp-action="Unlock" asp-route-id="@user.Id">Odblokuj</a> |
-                    <a asp-action="ResetPassword" asp-route-id="@user.Id">Reset Hasła</a>
+                    <form method="post" asp-action="Lock" asp-route-userId="@user.Id" style="display:inline">
+                        <button class="btn btn-warning btn-sm">Zablokuj</button>
+                    </form> |
+                    <form method="post" asp-action="Unlock" asp-route-userId="@user.Id" style="display:inline">
+                        <button class="btn btn-success btn-sm">Odblokuj</button>
+                    </form> |
+                    <form method="post" asp-action="ResetPassword" asp-route-userId="@user.Id" style="display:inline">
+                        <button class="btn btn-danger btn-sm">Reset hasła</button>
+                    </form>
                 </td>
             </tr>
         }

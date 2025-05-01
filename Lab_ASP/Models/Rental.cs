@@ -11,6 +11,7 @@ namespace Lab_ASP.Models
         public int EquipmentId { get; set; }
         [ForeignKey("EquipmentId")]
         public Equipment? Equipment { get; set; }
+        public int? Price { get; set; }
         public int RentalPointId { get; set; }
         [ForeignKey("RentalPointId")]
         public RentalPoint? RentalPoint { get; set; }

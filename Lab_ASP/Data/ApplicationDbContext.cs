@@ -26,31 +26,31 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(e => e.EquipmentType)
             .WithMany(et => et.Equipments)
             .HasForeignKey(e => e.EquipmentTypeId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Equipment>()
             .HasOne(e => e.RentalPoint)
             .WithMany(et => et.Equipments)
             .HasForeignKey(e => e.RentalPointId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Rental>()
             .HasOne(e => e.Equipment)
             .WithMany(et => et.Rentals)
             .HasForeignKey(e => e.EquipmentId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Rental>()
             .HasOne(e => e.RentalPoint)
             .WithMany(et => et.Rentals)
             .HasForeignKey(e => e.RentalPointId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Reservation>()
             .HasOne(e => e.Equipment)
             .WithMany(et => et.Reservations)
             .HasForeignKey(e => e.EquipmentId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<ApplicationUser>()
             .Property(u => u.UserType)

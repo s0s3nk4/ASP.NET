@@ -25,6 +25,8 @@ public class Program
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseInMemoryDatabase("InMemoryDb"));
+        //UseSqlServer(connectionString));
+        //UseInMemoryDatabase("InMemoryDb"));
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

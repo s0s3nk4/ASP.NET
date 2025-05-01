@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Statystyki";
+}
+
+<h1>Statystyki wypożyczeń</h1>
+
+<p><strong>Łączna liczba wypożyczeń:</strong> @ViewBag.TotalRentals</p>
+<p><strong>Łączna kwota wypożyczeń:</strong> @ViewBag.TotalRevenue zł</p>
+
+<h2>Wypożyczenia per użytkownik</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Użytkownik</th>
+            <th>Liczba wypożyczeń</th>
+            <th>Suma opłat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in ViewBag.RentalPerUser)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.Count</td>
+                <td>@user.Total zł</td>
+            </tr>
+        }
+    </tbody>
+</table>
